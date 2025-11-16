@@ -1,0 +1,7 @@
+[project]
+name = "python-static-site"
+version = "0.1.0"
+description = "Python project for a static site generator part of the Boot.dev course"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
