@@ -5,3 +5,9 @@ description = "Python project for a static site generator part of the Boot.dev c
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=9.0.1"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
