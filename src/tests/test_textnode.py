@@ -63,4 +63,3 @@ def test_text_node_to_html_node(
     assert html_node.tag == expected_tag
     assert html_node.value == expected_value
     assert html_node.props == expected_props
-
