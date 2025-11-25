@@ -13,7 +13,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         if len(parts) % 2 == 0:
             raise ValueError("Invalid markdown syntax, formatted section not closed")
         for i, part in enumerate(parts):
-            if part == "":
+            if part in ["", "\n"]:
                 continue
             if i % 2 == 0:
                 split_nodes.append(TextNode(part, old_node.text_type))
