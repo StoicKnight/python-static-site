@@ -7,7 +7,7 @@ from src.textnode import TextNode, TextType, text_node_to_html_node
 
 
 RE_HEADING = re.compile(r"^#{1,6}\s(.*)$", re.MULTILINE)
-RE_QUOTE = re.compile(r"^>\s?(.*)$", re.MULTILINE)
+RE_QUOTE = re.compile(r"^> ?(.*)$", re.MULTILINE)
 RE_UL_ITEM = re.compile(r"^[-*]\s(.*)$", re.MULTILINE)
 RE_OL_ITEM = re.compile(r"^\d\.\s(.*)$", re.MULTILINE)
 RE_CODE_BLOCK = re.compile(r"\`{3}(?:\w+)?\n([^\`]+)\n\`{3}", re.MULTILINE)
@@ -52,7 +52,7 @@ def block_to_block_type(block: str) -> BlockType:
             return BlockType.HEADING
     if len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
         return BlockType.CODE
-    if block.startswith("> ") and all(line.startswith("> ") for line in lines):
+    if block.startswith("> ") and all(line.startswith(">") for line in lines):
         return BlockType.QUOTE
     if block.startswith("- ") and all(line.startswith("- ") for line in lines):
         return BlockType.UNORDERED_LIST
@@ -109,7 +109,10 @@ def clean_block_text(block_type: BlockType, block_text: str) -> str:
             matches = RE_HEADING.findall(block_text)
             return matches[0] if matches else block_text.lstrip("#").strip()
         case BlockType.QUOTE:
-            return "\n".join(RE_QUOTE.findall(block_text))
+            quotes = "\n".join(
+                list(map(lambda t: t.strip(), RE_QUOTE.findall(block_text)))
+            )
+            return quotes
         case BlockType.CODE:
             return "\n".join(RE_CODE_BLOCK.findall(block_text))
         case _:
